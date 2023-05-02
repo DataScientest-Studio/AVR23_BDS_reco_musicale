@@ -1,0 +1,27 @@
+
+    Reduced to U.S.A. only dataset
+    13 feature columns
+        sentiment_score: Sentiment score from Opinion Lexicon. If no score was provided then a 0 was input.
+        user_id: Unique user ID
+        track_id: Unique track ID
+	hashtag: Hashtag of the listening event used to merge dataframes
+	artist_id: Unique artist ID 
+        sentiment: Sentiment extracted from sentiment score based on range 0-1
+        Instrumentalness: Signifies whether a track contains vocals.
+        Liveness: Presence of an audience in the track recording (range is [0, 1], where 1 indicates high probability of liveness).
+        Speechiness: Presence of spoken words in a track - whether a track contains more music or words (range is [0, 1], where 0 is a track with no speech).
+        Danceability: Suitability of a track for dancing based on a combination of musical elements like tempo, rhythm stability, beat strength, and overall regularity (range is [0, 1], where 1 is a most danceable song).
+        Valence: Musical positiveness conveyed by a track (range is [0, 1], where 1 is a highly positive and cheerful song).
+        Loudness: The overall loudness of a track in decibel (dB).
+        Tempo: The overall estimated tempo of a track in beats per minute (BPM).
+        Acousticness: Probability whether a track is acoustic (range is [0, 1]).
+        Energy: Perceptual measure of intensity and activity (range is [0, 1], where 1 indicates a high-energy track).
+        Mode: Modality (major or minor) of a track, i.e., the type of scale from which its melodic content is derived. Major is 1 and minor is 0.
+        Key: The key that the track is in. Integers map to pitches using standard Pitch Class notation.
+        tz_Alaska_Time: Categorical - One hot encoded from (dropped) timezone column
+        tz_Central_Time: Categorical - One hot encoded from (dropped) timezone column
+        tz_Eastern_Time: Categorical - One hot encoded from (dropped) timezone column
+        tz_Hawaii_Time: Categorical - One hot encoded from (dropped) timezone column
+        tz_Mountain_Time: Categorical - One hot encoded from (dropped) timezone column
+        tz_Pacific_Time: Categorical - One hot encoded from (dropped) timezone column
+        sentiment: Extracted from sentiment_score with a range 0-1 and is the predictor column
