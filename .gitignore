@@ -130,3 +130,6 @@ dmypy.json
 
 # csv extention
 *.csv
+
+# zip extension
+*.zip
