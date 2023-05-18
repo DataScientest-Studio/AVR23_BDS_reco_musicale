@@ -133,3 +133,9 @@ dmypy.json
 
 # zip extension
 *.zip
+
+# db extension
+*.db
+
+# txt extension
+*.txt
