@@ -1,15 +1,6 @@
 import pandas as pd
 import streamlit as st
 
-# Charger le jeu de données
-df = pd.read_csv('triplets_metadata_spotify.csv')
-
-# Filtrer les utilisateurs ayant au moins 10 écoutes
-df_filtered = df.groupby('user').filter(lambda x: x['listening_count'].sum() >= 10)
-
-# Sélectionner 1000 lignes aléatoires
-df = df_filtered.sample(n=1000, random_state=42)
-
 # Titre de l'application
 st.title("RECOMMANDATION MUSICALE")
 
@@ -48,24 +39,30 @@ if page == pages[0]:
     
 elif page == pages[1]:
     st.header("Prétraitement des données")
-    st.subheader("Affichage des cinq premières lignes du dataset")
-    st.dataframe(df.head(5))
-    st.write("Nombre de lignes du dataframe :", len(df))
-    st.write("Description du dataframe :")
-    st.write(df.describe())
     
-    # Suppression des duplications
-    df = df.drop_duplicates(subset=['song_name', 'artist_name'], keep='first').reset_index()
-    st.write("Nombre de duplications supprimées :", df['song_name'].duplicated().sum())
-    st.write("Nouveau nombre de lignes après suppression des duplications :", len(df))
+    affichages = ['Head', 'Informations sur les variables', 'Longueur du dataframe', 'Réduction des redondances',
+                  'Statistiques', 'Création des labels (artistes-chansons)']
     
-    tracks_feats = df.drop(['user', 'listening_count'], axis=1).drop_duplicates()
-    artists = tracks_feats.artist_name
-    songs = tracks_feats.song_name
-    labels = artists + '-' + songs
-    
-    st.header("Exemple des étiquettes")
-    st.write(labels.head())
+    selected_affichage = st.sidebar.selectbox("Sélectionnez un affichage", affichages)
+
+    if selected_affichage == 'Head':
+        st.write("Affichage des cinq premières lignes du dataset")
+        st.image("df_head.png")
+    elif selected_affichage == 'Informations sur les variables':
+        st.write("Informations sur les données du dataframe :")
+        st.image("df_info.png")
+    elif selected_affichage == 'Longueur du dataframe':
+        st.write("Longueur du dataframe avant traitement :")
+        st.image("df_len.png")
+    elif selected_affichage == 'Réduction des redondances':
+        st.write("Réduction des redondances :")
+        st.image("df_drop_dup.png")
+    elif selected_affichage == 'Statistiques':
+        st.write("Statistiques du dataframe:")
+        st.image("df_stat.png")    
+    elif selected_affichage == 'Création des labels (artistes-chansons)':
+        st.write("Création des labels (artistes-chansons):")
+        st.image("df_label.png")
     st.image("reco.png")
     st.image("Data Sci.png")
     
@@ -73,26 +70,29 @@ elif page == pages[2]:
     st.header("Visualisation des données")
     st.image("Data Sci.png")
     
-    visualizations = ['Histogramme', 'Nuage de points', 'Corrélation', 'Corrélation entre les audio features',
-                      'Box plot des variables', 'Distribution de la valence', 'Nombre écoutes par paire utilisateurs']
-
+    visualizations = ['Histogramme : Distribution du nombre découtes', 'Histogramme : Distribution du nombre de morceaux différents',
+                      'Histogramme : Distribution du nombre dartistes différents', 'Nuage de points', 'Corrélation',
+                      'Box plot des variables', 'Nombre découtes par paire dutilisateurs', 'Top 30 des morceaux en fonction des variables']
+    
     selected_viz = st.sidebar.selectbox("Sélectionnez une visualisation", visualizations)
 
-    if selected_viz == 'Histogramme':
-        st.image("quanti_ditrib.png")
+    if selected_viz == 'Histogramme : Distribution du nombre découtes':
+        st.image("user_list_count_dis.png")
     elif selected_viz == 'Nuage de points':
-        st.image("corr_dist_spe.png")
+        st.image("pairplot_tracks.png")
     elif selected_viz == 'Corrélation':
-        st.image("quanti_corr_heatmap.png")
-    elif selected_viz == 'Corrélation entre les audio features':
-        st.image("corr_audio_features.png")
+        st.image("corr_tracks.png")
+    elif selected_viz == 'Histogramme : Distribution du nombre de morceaux différents':
+        st.image("user_song_dist.png")
     elif selected_viz == 'Box plot des variables':
-        st.image("quanti_boxplot_normalized.png")
-    elif selected_viz == 'Distribution de la valence':
-        st.image("valence_distrib.png")
-    elif selected_viz == 'Nombre écoutes par paire utilisateurs':
+        st.image("boxplots_tracks.png")
+    elif selected_viz == 'Histogramme : Distribution du nombre dartistes différents':
+        st.image("user_art_dist.png")
+    elif selected_viz == 'Nombre découtes par paire dutilisateurs':
         st.image("pair-users.png")
-    
+    elif selected_viz == 'Top 30 des morceaux en fonction des variables':
+        st.image("top_thirty.png")
+        
 elif page == pages[3]:
     st.image("Data Sci.png")
     utilisateur = st.text_input("Entrez votre nom d'utilisateur")
@@ -109,10 +109,11 @@ elif page == pages[3]:
             else:
                 st.write("Veuillez saisir votre nom d'utilisateur pour obtenir une recommandation personnalisée.")
 
-    def recommendation_random():
-        # Code pour générer une recommandation aléatoire
-        return "Titre de la chanson recommandée"
+def recommendation_random():
+    # Code pour générer une recommandation aléatoire
+    return "Titre de la chanson recommandée"
 
-    def recommendation_user_based(user):
-        # Code pour générer une recommandation basée sur les préférences de l'utilisateur
-        return "Titre de la chanson recommandée"
+def recommendation_user_based(user):
+    # Code pour générer une recommandation basée sur les préférences de l'utilisateur
+    return "Titre de la chanson recommandée"
+
