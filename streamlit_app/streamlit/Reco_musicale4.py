@@ -2,11 +2,11 @@ import pandas as pd
 import streamlit as st
 
 # Titre de l'application
-st.title("RECOMMANDATION MUSICALE")
+#st.title("RECOMMANDATION MUSICALE")
 
 # Barre latérale avec le sommaire
 st.sidebar.title("Sommaire")
-pages = ["Introduction", "Prétraitement des données", "Visualisation des données", "Modèle de recommandation"]
+pages = ["Introduction", "Les Données", "Prétraitement des données", "Visualisation des données", "Modèle de recommandation"]
 page = st.sidebar.radio("Aller vers", pages)
 
 if page == pages[0]:
@@ -75,8 +75,55 @@ if page == pages[0]:
         """)
     
     st.image("Data Sci.png")
-    
+
 elif page == pages[1]:
+    st.header("Les données utilisées pour le projet")
+    
+    st.text("\n")
+    st.text("\n")
+    
+
+    st.image("acoustic_db.png", width = 400)
+    
+    st.text("\n")
+
+    st.write("""
+    Afin de construire un système de recommandations musicales, nous avons  
+    recomposé un jeu de données à partir de 3 sources dont 2 d'entre elles
+    appartiennent au jeu de données Million Song [http://millionsongdataset.com/](http://millionsongdataset.com/)  
+
+
+    - Le premier fichier [train_triplets.txt](millionsongdataset.com/sites/default/files/challenge/train_triplets.txt.zip) contient des identifiants d'utilisateurs anonymisés  
+      ainsi que les identifiant des chansons et le nombre d'écoute par chanson pour chacun des utilisateurs
+
+    
+    - Le deuxième fichier [track_metadata.db](labrosa.ee.columbia.edu/millionsong/sites/default/files/AdditionalFiles/track_metadata.db) correspond à une base de métadonnées
+      permettant notamment de relier les identifiants des chansons à leurs noms et artistes  
+
+
+    - Le dernier fichier [tracks_features.csv](https://www.kaggle.com/rodolfofigueroa/spotify-12m-songs) est un jeu de données 
+      recensant les caractéristiques acoustiques de plus d'1,2 million de chansons parmi lesquelles se trouvent des métriques mesurant le caractère danseant des chansons,
+      leur tempo, caractère acoustique, propension à être jouées en live, le degré de paroles qu'elles contiennent, leur intensité sonore ou bien encore leur valence 
+      (note entre 0 et 1 associée à la positivité que véhicule le son)        
+
+
+    """)
+    st.text("\n")
+    st.text("\n")
+
+    col1, col2 = st.columns(2)
+    with col1:
+        st.write("""
+        Le jeu de données que nous avons recomposé  
+        est disponible sous forme partitionnée   
+        sur notre dépot GitHub [https://github.com/DataScientest-Studio/AVR23_BDS_reco_musicale/tree/main/data](https://github.com/DataScientest-Studio/AVR23_BDS_reco_musicale/tree/main/data)')
+        """)
+        
+    with col2:
+        st.image('acoustic.png', width=200)
+    
+
+elif page == pages[2]:
     st.header("Prétraitement des données")
     
     affichages = ['Head', 'Informations sur les variables', 'Longueur du dataframe', 'Réduction des redondances',
@@ -105,7 +152,7 @@ elif page == pages[1]:
     st.image("reco.png")
     st.image("Data Sci.png")
     
-elif page == pages[2]:
+elif page == pages[3]:
     st.header("Visualisation des données")
     st.image("Data Sci.png")
     
@@ -132,7 +179,7 @@ elif page == pages[2]:
     elif selected_viz == 'Top 30 des morceaux en fonction des variables':
         st.image("top_thirty.png")
         
-elif page == pages[3]:
+elif page == pages[4]:
     st.image("Data Sci.png")
     utilisateur = st.text_input("Entrez votre nom d'utilisateur")
 
