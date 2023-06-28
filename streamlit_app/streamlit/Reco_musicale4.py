@@ -11,30 +11,69 @@ page = st.sidebar.radio("Aller vers", pages)
 
 if page == pages[0]:
     st.header("Introduction")
-    st.markdown("""
-    Le projet de recommandation musicale vise à créer un système qui propose des recommandations personnalisées
-    aux utilisateurs en fonction de leurs préférences musicales. Grâce à l'utilisation d'algorithmes avancés,
-    ce système exploite les données des utilisateurs telles que leurs goûts musicaux, leurs historiques
-    d'écoute et leurs interactions avec la plateforme pour générer des suggestions pertinentes.
+    #st.markdown(""
+
     
-    L'objectif principal est de fournir une expérience d'écoute musicale enrichissante en aidant les utilisateurs à
-    découvrir de nouvelles chansons, artistes et genres musicaux qui correspondent à leurs intérêts.
+    definition = st.checkbox("**Qu'est-ce qu'un système de recommandation ?**")
     
-    L'application, basée sur Streamlit, offre une interface conviviale où les utilisateurs peuvent
-    saisir leur nom d'utilisateur, choisir parmi différentes options de recommandation
-    et obtenir des suggestions musicales. En utilisant des méthodes de recommandation
-    aléatoire ou basée sur les préférences de l'utilisateur, le système offre
-    une expérience personnalisée et interactive. Ce projet permet ainsi aux amateurs
-    de musique d'explorer et de profiter d'un large éventail de morceaux adaptés à
-    leurs goûts individuels.
-    """)
-    st.image("spotify.png")
-    st.header("Choix du dataset")
-    st.markdown("""
-    Nous avons initialement travaillé avec un dataset nommé "module4_cleaned". Cependant, après avoir réalisé plusieurs
-    opérations et réflexions sur la structure et l'exploitation des données, nous avons conclu, en accord avec notre encadrant,
-    que ce jeu de données n'était plus pertinent ni à jour pour générer des recommandations adaptées au contexte actuel.
-    """)
+    
+    if definition:
+        #st.write("## Markdown")
+        st.write("""
+        - Il s'agit d'un système dit "intelligent" composé d'algorithmes d'analyse et de filtrage des données de différents utilisateurs
+            qui a pour but de mesurer leur affinité pour certains items et, grâce à cette affinité,
+            de prédire un classement des items les plus susceptibles de leur plaire afin de proposer aux utilisateurs des **recommandations ciblées**.
+        
+        - **Ou en rencontre t'on**?
+        Ils sont aujourd'hui omniprésents: plateformes de recommandation de films, de musiques, réseaux sociaux, sites d'e-commerce
+        """)
+        
+    objectif = st.checkbox("**Les objectifs d'un système de recommandation musicale**")
+    if objectif:
+        st.write("""
+        - Fournir une expérience d'écoute musicale enrichissante 
+        - Aider les utilisateurs à découvrir de nouvelles chansons, artistes et genres musicaux 
+        - En leur proposant des titres semblales ou différents de leurs goûts 
+
+        **Quels problèmes cela pose t'il?**
+        - Proposition de titres similaires aux goûts des utilisateurs: problème de 'bulles de filtre' ou l'accès à l'information est limitée
+        - Proposition de titres différents: pari risqué, cela plaira t'il à l'utilisateur? Potentiellement oui, la sérendipité est au rendez-vous 
+        """)
+        st.image('syst_reco_mus.png')
+
+    types = st.checkbox("**Les types de systèmes de recommandation**")
+    if types:
+        st.write("""
+        - Il en existe 3 principaux:
+            - Le filtrage collaboratif: 2 utilisateurs aiment les mêmes types d'items  
+              Recommandation des items que l'un n'a pas exploré à l'autre et vice versa
+
+            - Le filtrage basé sur la similarité des items entre eux    
+              Recommandation d'items similaires à un autre exploré par un utilisateur
+
+            - Les systèmes hybrides alliant 'Collaborative filtering' et 'Content-based filtering'
+        """)
+        st.image('types_reco_syst.png')
+    
+    
+    
+    
+    choice = st.checkbox('**Dataset**')
+    if choice:
+        st.header("Choix du dataset")
+        st.write("""
+        - Dataset de la feuille de projet disponible [ici](https://www.kaggle.com/chelseapower/module4-project)
+            - Evènements d'écoutes restreints à l'année 2014 par des utilisateurs ayant publié leurs réactions sur Twitter
+                - Difficulté à déterminer l'affinité des utilisateurs pour les chansons écoutées à partir des sentiments associés aux tweets
+                - Impossibilité d'obtenir les métadonnées des chansons (titre, artiste, album) 
+                - Problème d'interprétabilité des recommandations potentielles
+        \n     
+                
+                    
+        - Nous avons donc sélectionner le jeu de données Million Song et l'avons enrichi 
+            - Présence d'une variable d'affinité entre les utilisateurs et les morceaux sous forme du nombre d'écoutes par chanson: *Feedback implicite* 
+        """)
+    
     st.image("Data Sci.png")
     
 elif page == pages[1]:
