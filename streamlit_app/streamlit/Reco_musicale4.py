@@ -1,18 +1,23 @@
 import pandas as pd
 import streamlit as st
+import os
+from pathlib import Path
+
+CUR_DIR = os.path.abspath('')
+DECO_DIR = str(Path(CUR_DIR) / "decoration") + "\\"
 
 # Titre de l'application
 #st.title("RECOMMANDATION MUSICALE")
 
 # Barre latérale avec le sommaire
 st.sidebar.title("Sommaire")
-pages = ["Introduction", "Les Données", "Prétraitement des données", "Visualisation des données", "Modèle de recommandation"]
+pages = ["Introduction", "Les Données", "Prétraitement des données", "Exploration", "Modèle de recommandation", "Evaluation et résultats"]
 page = st.sidebar.radio("Aller vers", pages)
 
 if page == pages[0]:
     st.header("Introduction")
+    #st.write(DECO_DIR)
     #st.markdown(""
-
     
     definition = st.checkbox("**Qu'est-ce qu'un système de recommandation ?**")
     
@@ -39,7 +44,9 @@ if page == pages[0]:
         - Proposition de titres similaires aux goûts des utilisateurs: problème de 'bulles de filtre' ou l'accès à l'information est limitée
         - Proposition de titres différents: pari risqué, cela plaira t'il à l'utilisateur? Potentiellement oui, la sérendipité est au rendez-vous 
         """)
-        st.image('syst_reco_mus.png')
+        
+        st.image("decoration/syst_reco_mus.png")
+        
 
     types = st.checkbox("**Les types de systèmes de recommandation**")
     if types:
@@ -53,7 +60,7 @@ if page == pages[0]:
 
             - Les systèmes hybrides alliant 'Collaborative filtering' et 'Content-based filtering'
         """)
-        st.image('types_reco_syst.png')
+        st.image("decoration/types_reco_syst.png")
     
     
     
@@ -74,7 +81,7 @@ if page == pages[0]:
             - Présence d'une variable d'affinité entre les utilisateurs et les morceaux sous forme du nombre d'écoutes par chanson: *Feedback implicite* 
         """)
     
-    st.image("Data Sci.png")
+    st.image("decoration/Data Sci.png")
 
 elif page == pages[1]:
     st.header("Les données utilisées pour le projet")
@@ -83,7 +90,7 @@ elif page == pages[1]:
     st.text("\n")
     
 
-    st.image("acoustic_db.png", width = 400)
+    st.image("decoration/acoustic_db.png", width = 400)
     
     st.text("\n")
 
@@ -120,86 +127,87 @@ elif page == pages[1]:
         """)
         
     with col2:
-        st.image('acoustic.png', width=200)
+        st.image("decoration/acoustic.png", width=200)
+        
     
 
 elif page == pages[2]:
     st.header("Prétraitement des données")
-    
-    affichages = ['Head', 'Informations sur les variables', 'Longueur du dataframe', 'Réduction des redondances',
-                  'Statistiques', 'Création des labels (artistes-chansons)']
-    
-    selected_affichage = st.sidebar.selectbox("Sélectionnez un affichage", affichages)
+    st.text("\n")
+    st.text("\n")
 
-    if selected_affichage == 'Head':
-        st.write("Affichage des cinq premières lignes du dataset")
-        st.image("df_head.png")
-    elif selected_affichage == 'Informations sur les variables':
-        st.write("Informations sur les données du dataframe :")
-        st.image("df_info.png")
-    elif selected_affichage == 'Longueur du dataframe':
-        st.write("Longueur du dataframe avant traitement :")
-        st.image("df_len.png")
-    elif selected_affichage == 'Réduction des redondances':
-        st.write("Réduction des redondances :")
-        st.image("df_drop_dup.png")
-    elif selected_affichage == 'Statistiques':
-        st.write("Statistiques du dataframe:")
-        st.image("df_stat.png")    
-    elif selected_affichage == 'Création des labels (artistes-chansons)':
-        st.write("Création des labels (artistes-chansons):")
-        st.image("df_label.png")
-    st.image("reco.png")
-    st.image("Data Sci.png")
-    
-elif page == pages[3]:
-    st.header("Visualisation des données")
-    st.image("Data Sci.png")
-    
-    visualizations = ['Histogramme : Distribution du nombre découtes', 'Histogramme : Distribution du nombre de morceaux différents',
-                      'Histogramme : Distribution du nombre dartistes différents', 'Nuage de points', 'Corrélation',
-                      'Box plot des variables', 'Nombre découtes par paire dutilisateurs', 'Top 30 des morceaux en fonction des variables']
-    
-    selected_viz = st.sidebar.selectbox("Sélectionnez une visualisation", visualizations)
-
-    if selected_viz == 'Histogramme : Distribution du nombre découtes':
-        st.image("user_list_count_dis.png")
-    elif selected_viz == 'Nuage de points':
-        st.image("pairplot_tracks.png")
-    elif selected_viz == 'Corrélation':
-        st.image("corr_tracks.png")
-    elif selected_viz == 'Histogramme : Distribution du nombre de morceaux différents':
-        st.image("user_song_dist.png")
-    elif selected_viz == 'Box plot des variables':
-        st.image("boxplots_tracks.png")
-    elif selected_viz == 'Histogramme : Distribution du nombre dartistes différents':
-        st.image("user_art_dist.png")
-    elif selected_viz == 'Nombre découtes par paire dutilisateurs':
-        st.image("pair-users.png")
-    elif selected_viz == 'Top 30 des morceaux en fonction des variables':
-        st.image("top_thirty.png")
         
-elif page == pages[4]:
-    st.image("Data Sci.png")
-    utilisateur = st.text_input("Entrez votre nom d'utilisateur")
+    col1, col2 = st.columns(2)
+    with col1:
+        st.image("prettt/table_join.png")
+    with col2:
+        st.write("""
+        - Informations contenant le comportement de consommation des utilisateurs et caractéristiques acoustiques des sons dans dans 2 tables distinctes:
+          *triplet* et *track_features* 
+        """)
+        st.text("\n")
+        st.write("""
+        - Pas de variable commune permettant de joindre directement ces deux tables  
+        Jointure en 2 temps: grâce à la table *track_metadata* qui identifie les "tracks" par une variable commune avec la table *triplet*  
+        Obtention des titres et artistes permettant d'obtenir les caractéristiques acoustiques (table *tracks_features*)
+        """)
+    
+        st.write("""
+        - Cependant, il existe de nombreuses reprises d'un son par différents artistes.
+        La jointure avec la table *track_features* se fait donc sur les noms de chansons ET d'artistes correspondants communs aux 2 jeux de données    
+        """)
 
-    recommandation = st.selectbox("Choisissez une option de recommandation",
-                                 ("Recommandation aléatoire", "Recommandation basée sur vos préférences"))
+    st.write("""
+    - Table résultante: titres et artistes correspondants des sons, nombre d'écoutes et caractéristiques acoustiques de chaque son pour tous les utilisateurs.
+    - Plusieurs interprétations d'un même son par un même artiste existent. La fusion éffectuée ne permet pas d'identifier la version d'un son écouté par l'utilisateur  
+    Pour chaque artiste, une seule version d'un son est donc conservée (aucun duplicat n'est plus légitime qu'un autre).
+    - Tableau: 4,973,744 entrées, 849,209 utilisateurs et 27,607 sons différents 
+    """)
 
-    if st.button("Obtenir une recommandation"):
-        if recommandation == "Recommandation aléatoire":
-            st.write("Voici une recommandation aléatoire pour vous :", recommendation_random())
-        elif recommandation == "Recommandation basée sur vos préférences":
-            if utilisateur:
-                st.write("Voici une recommandation basée sur vos préférences :", recommendation_user_based(utilisateur))
-            else:
-                st.write("Veuillez saisir votre nom d'utilisateur pour obtenir une recommandation personnalisée.")
+    st.text("\n")
 
-def recommendation_random():
-    # Code pour générer une recommandation aléatoire
-    return "Titre de la chanson recommandée"
+    st.write("""
+    - Les caractéristiques acoustiques des sons sont ensuite **normalisées** selon une distribution normale standard
+    """)    
+    
 
-def recommendation_user_based(user):
-    # Code pour générer une recommandation basée sur les préférences de l'utilisateur
-    return "Titre de la chanson recommandée"
+elif page == pages[3]:
+    st.header("Visualisations")
+    st.text("\n")
+    st.text("\n")
+
+    features = st.checkbox('**Caractéristiques Musicales**')
+    if features:
+        display = ["", 'Distribution', 'Corrélations', ] #caption
+        selected_display = st.selectbox("Sélectionnez un affichage", display)    
+        if selected_display == display[1]:
+            st.image("Data_viz/audio_features_distribution.jpg", caption= "Distribution des caractéristiques acoustiques normalisées")
+            st.write("""
+            - Variables *speechiness*, *acousticness*, *instumentalness* et *liveness*: distributions asymmétriques
+              - Majorité des sons: pas de paroles, pas d'intruments acoustiques, non enregistrés en live
+
+            - Variable danceability: distribution suivant une loi normale  
+            - Majorité des sons: forte valeur de la variable *energy*
+            """)
+        elif selected_display == display[2]:
+            st.image("Data_viz/audio_features_corr_tracks.jpg", width = 500, caption= "Heatmap des corrélations entre caractéristiques acoustiques")
+            st.write("""
+            - Valeurs absolues de corrélations faibles
+            - Les seules présentant une valeur absolue de corrélation > 0.7 sont 
+                - *acousticness* et *energy*, *loudness* et *energy* 
+            """)
+    st.text("\n")
+
+    interaction = st.checkbox('**Intéractions items/utilisateurs**')
+    if interaction:
+        st.image("Data_viz/items_users_interactions.png", width = 1000)
+        st.text("\n")
+        st.write("""
+        - Les nombres de sons, d'écoutes et d'artistes par utilisateur présentent des distributions très asymétriques
+        - Echelle logarithmique pour visualiser l'allongement de la queue droite vers les valeurs élevées
+        - En terme pratique: un quart des utilisateurs 
+        """)
+
+else:
+    pass
 
