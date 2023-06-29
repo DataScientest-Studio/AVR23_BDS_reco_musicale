@@ -5,6 +5,7 @@ from pathlib import Path
 
 CUR_DIR = os.path.abspath('')
 DECO_DIR = str(Path(CUR_DIR) / "decoration") + "\\"
+import streamlit.components.v1 as components
 
 # Titre de l'application
 #st.title("RECOMMANDATION MUSICALE")
@@ -209,7 +210,7 @@ elif page == pages[3]:
         """)
 
 elif page == pages[4]:
-    st.header('Modèles de recommandation')
+    st.header('Modèles de recommandations')
     st.text("\n")
     st.text("\n")
     st.write("""
@@ -273,7 +274,62 @@ elif page == pages[4]:
             **Limites**
             - Peu de sérendipité (effet "bulle de filtre").
         """)
-        
+    st.write("## Exemples d'applications")
+    st.text("\n")
+    users  = ['22e08d5e101ab5b86dc394856d508e175a5242a6',
+              '72b7c0b7ef846805b61e7a82534beded246a95c2',
+              'b393acb0d2f15b13fb1377c2998b222f6e174619',
+              'b784fec0b1e04dbf02a2f095da6ec1e3a8561391',
+              'af3ee32357049dd96231238bd1b019e8142ee6aa', # l'espagnol
+              '3fa44653315697f42410a30cb766a4eb102080bb',
+              "ec6dfcf19485cb011e0b22637075037aae34cf26",
+              '6a46aee45cc177cf8e2025e59d21c7939902deee',
+              '716ed1ec67d67bfa05db3ffeb641d13f46dca6ec',
+              'd035c4a2b179ef8c756d73f9f3018ec7a87d8594']
+    lims = [10,
+            5,
+            5,
+            4,
+            3,
+            3,
+            7,
+            4,
+            3,
+            3
+            ]
+
+    
+    
+    sel_user = st.selectbox("Sélectionnez un utilisateur", users)
+    lim = [*range(1, lims[users.index(str(sel_user))]+1)]
+    
+    avg_profile = st.checkbox("**Average based ranking algorithm**")
+    if avg_profile:
+        polar = st.checkbox("**Polar plot du profile moyen**")
+        if polar:
+            html_file = open("users_viz/" + str(sel_user) + "_avg_profile.html", 'r', encoding = 'utf-8')
+            source_code = html_file.read()
+            components.html(source_code, height = 1700, width=2000)
+        result = st.checkbox("**Détection des titres de la playlist de l'utilisateur par proposition des 5 voisins les plus proches**")
+        if result:
+            st.image("users_viz/" + str(sel_user) + "_avg_profile_df.png")
+
+    centroid_profiles = st.checkbox("**K-means based ranking algorithm**")
+    if centroid_profiles:
+        scores = st.checkbox("**Nombre de clusters du profile acoustique de cet utilisateur**")
+        if scores:
+            st.image("users_viz/" + str(sel_user) + "_silhouette_scores.png")
+        polar_centroids = st.checkbox("**Polar plots des sous profiles acoustiques de l'utilisateur**")
+        if polar_centroids:
+            target_centroid = st.selectbox("Centroïde N°", lim)
+            html_file = open("users_viz/" + str(sel_user) + f"_centroid_{str(target_centroid)}_profile .html", 'r', encoding = 'utf-8')
+            source_code = html_file.read()
+            components.html(source_code, height = 1700, width=2100)    
+        result = st.checkbox("**Détection des titres de la playlist de l'utilisateur par proposition des 5 voisins les plus proches de chaque centroide**")
+        if result:
+            st.image("users_viz/" + str(sel_user) + "_centroids_profiles_df.png")
+
+
 elif page == pages[5]:
     st.header("Evaluation des algorithmes")
     st.text("\n")
@@ -336,7 +392,7 @@ elif page == pages[5]:
             Notes:
             - Random reco. : Recommandations après attribution de rang aléatoire
             - Avg-b reco. : Recommandations après attribution de rang par *Average-based ranking*
-            - Avg-b reco. : Recommandations après attribution de rang par *Kmeans-based ranking*
+            - Km-b reco. : Recommandations après attribution de rang par *Kmeans-based ranking*
             - \{nom-de-l-algo\}-af reco. : Recommandations après filtrage des rangs sur les artistes.
             
         """)
@@ -357,9 +413,10 @@ elif page == pages[5]:
             - Les titres n'ayant été écouté par aucun utilisateur n'ont pas été intégré dans les propositions possibles
             
             **Perspectives** :
-            - Evaluation des performances sur plus d'échantillon
+            - Développer d'autres filtres: langue, thème, artistes *similaires* 
+            - Evaluation des performances sur plus d'échantillons
             - Comparer les performances à un algorithme de *Collaborative-filtering*
-            - Développer un algorithme de recommandation hybride intégrant de mulitples sources d'information
+            - Développer un algorithme de recommandation hybride intégrant de mulitples sources d'informations
             
             Notes : La méthodo pour évaluer les algorithmes a été développé grâce au livre *Recommenders Systems* d'Aggarwal (500 pages).
             
