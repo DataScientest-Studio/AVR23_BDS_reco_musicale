@@ -11,7 +11,7 @@ DECO_DIR = str(Path(CUR_DIR) / "decoration") + "\\"
 
 # Barre latérale avec le sommaire
 st.sidebar.title("Sommaire")
-pages = ["Introduction", "Les Données", "Prétraitement des données", "Exploration", "Modèle de recommandation", "Evaluation et résultats"]
+pages = ["Introduction", "Les Données", "Prétraitement des données", "Exploration", "Modèles de recommandation", "Evaluation et résultats"]
 page = st.sidebar.radio("Aller vers", pages)
 
 if page == pages[0]:
@@ -208,6 +208,162 @@ elif page == pages[3]:
         - En terme pratique: un quart des utilisateurs 
         """)
 
+elif page == pages[4]:
+    st.header('Modèles de recommandation')
+    st.text("\n")
+    st.text("\n")
+    st.write("""
+    - **Objectif** : développer un système de recommandation de titres à un utilisateur en fonction de ses goûts musicaux.
+    - **Variable réponse** : affinité d'un utilisateur pour un titre (estimé par le fait qu'il ait ou non écouté le titre : variable unaire).
+    - **Formulation de la problématique** : *top-k recommendation problem*
+    - **Type d'algorithmes développés** : *Content-based ranking*
+    """)
+    
+    avg_b_ranking = st.checkbox('**Average-based ranking algorithm**')
+    if avg_b_ranking:
+        principle1 = st.checkbox('Principe', key = 'princip1')
+        if principle1:
+            st.image("algo_principle/averaging_based_good_example.png", width = 900)
+            st.text("\n")
+            st.write("""
+                     - Moyenne pondérée par nombre d'écoute des caractéristiques acoustiques des titres de la playlist : centroïde représentatif des goûts musicaux de l'utilisateur.
+                     - Définition d'un rang à chaque titre en fonction de sa distance au centroïde.
+                     - Proposition des  premiers titres.
+                    """)
+                    
+        limit1 = st.checkbox('Limites', key = 'limit1')
+        if limit1:
+            st.image("algo_principle/averaging_based_bad_example.png", width = 900)
+            st.text("\n")
+            st.write("""
+                     Algorithme peu adapté pour des utilisateurs :
+                         
+                    - avec des goûts musicaux très dispersés
+                    - avec des gouts musicaux polarisés (plusieurs genres musicaux appréciés)
+                     """)
+        
+    kmeans_b_ranking = st.checkbox('**Kmeans-based ranking algorithm**')
+    if kmeans_b_ranking:
+        principle2 = st.checkbox('Principe', key = 'princip2')
+        if principle2:
+            st.image("algo_principle/kmeans_based_example.png", width = 900)
+            st.text("\n")
+            st.write("""
+                     - Clustering des titres de la playlist de l'utilisateur par Kmeans : centroides représentant les K (sous)-genres musicaux appréciés par l'utilisateur
+                     - Définition de K rangs pour chaque titres en fonctions de leurs distances aux centroides.
+                     - Sélection du rang le plus faible pour chacun des titres.
+                     - Proposition des k premiers titres.
+                     """)
+        limit2 = st.checkbox('Limites', key = 'limit2')
+        if limit2:
+            st.text("\n")
+            st.write("""
+                     - Algorithme peu adapté pour des utilisateurs avec des goûts musicaux très dispersés.
+                     - Ne tiens compte que des caractéristiques acoustiques (quantitatives) des titres pour déterminer les goûts d'un utilisateur.
+             """)
+    artist_filter = st.checkbox('**Filtrage par artiste**')
+    if artist_filter:
+        st.image("algo_principle/artist_filtering.png", width = 900)
+        st.text("\n")
+        st.write("""
+            **Principe**
+            - Classement des artistes par nombre de titres dans la playlist de l'utilisateur.
+            - Modification des rangs des titres en forçant ceux des artistes les plus écoutés à occuper les premières places du classement, l'ordre des titres d'un même artiste dépendant de leur rang pré-filtrage.
+            
+            **Limites**
+            - Peu de sérendipité (effet "bulle de filtre").
+        """)
+        
+elif page == pages[5]:
+    st.header("Evaluation des algorithmes")
+    st.text("\n")
+    st.text("\n")
+    methodo = st.checkbox('**Methodologie**')
+    if methodo:
+        st.markdown("""
+            - Sélection d'une sous-population d'utilisateur en fonction 
+                - Du nombre de titres différents dans leur playlist
+                - Du nombre d'écoutes cumulées dans leur playlist
+            - Tirage aléatoire d'un échatillon dans cette sous-population
+            - Séparation aléatoire de la playlist de chaque user selon le facteur $p$ :
+                - Une proportion $p$ des titres de la playlist de l'utilisateur sera cachée à l'algorithme
+                - La proporiton $1-p$ des titres restant sert à définir les goûts des utilisateur
+            - Définition des rangs des morceaux n'appartenant pas à la playlist apparente par l'algorithme de ranking.
+            - Calcul en fonction de $k$, le nombre de titres proposés à l'utilisateur\* :
+                - $TPR(k)$ : la proportion de titre de la playlist cachée qui sont proposés à l'utilisateur
+                - $FPR(k)$ : la proporition de titres n'appartenant pas à la playlist cachée proposés à l'utilisateur
+            - **Evaluation** :
+                - Calcul de la courbe ROC curve et de l'AUC à partir de $TPR(k)$ et $FPR(k)$
+                - Comparaison d'AUC entre algorithme et avec les rangs attribués aléatoirement
+            \n
+            \n
+            \*Section 7.5.4 *Evaluating Ranking via Reciever Operating Characteristic*, *Recommenders System*, Aggarwal (2016)
+        """)
+        st.image("evaluation/workflow.png", width = 500)
+    results = st.checkbox('**Resultats**')
+    if results:
+        st.markdown("""
+            - Sous-groupes :
+                - Sous Groupe 1 (SG1) : 200 utilisateurs tirés aléatoirement parmis ceux ayant écouté entre 5 et 25 titres différentes
+                - SG2 : 200 utilisateurs tirés aléatoirement parmis ceux ayant écouté entre 26 et 50 titres différentes
+                - SG3 : 200 utilisateurs tirés aléatoirement parmis ceux ayant écouté entre 51 et 75 titres différentes
+                - SG4 : 200 utilisateurs tirés aléatoirement parmis ceux ayant écouté entre 76 et 100 titres différentes
+                - SG5 : les 176 utilisateurs ayant écouté plus de 100 titres différentes
+            - Proportion de la playlist cachée : $p=0.20$
+        """)
+        
+        display = ["Echantillon complet", 'SG1', 'SG2', 'SG3', 'SG4', 'SG5']
+        selected_display = st.selectbox("Sélectionnez un échantillon", display)
+        
+        if selected_display == display[0]:
+            st.image("evaluation/ROC_5_inf.jpg", caption= "ROC Curve : échantillon complet")
+            
+        elif selected_display == display[1]:
+            st.image("evaluation/ROC_5_25.jpg", caption= "ROC Curve : SG1")
+            
+        elif selected_display == display[2]:
+            st.image("evaluation/ROC_26_50.jpg", caption= "ROC Curve : SG2")
+            
+        elif selected_display == display[3]:
+            st.image("evaluation/ROC_51_75.jpg", caption= "ROC Curve : SG3")
+            
+        elif selected_display == display[4]:
+            st.image("evaluation/ROC_76_100.jpg", caption= "ROC Curve : SG4")
+            
+        elif selected_display == display[5]:
+            st.image("evaluation/ROC_101_inf.jpg", caption= "ROC Curve : SG5")
+        st.write("""
+            Notes:
+            - Random reco. : Recommandations après attribution de rang aléatoire
+            - Avg-b reco. : Recommandations après attribution de rang par *Average-based ranking*
+            - Avg-b reco. : Recommandations après attribution de rang par *Kmeans-based ranking*
+            - \{nom-de-l-algo\}-af reco. : Recommandations après filtrage des rangs sur les artistes.
+            
+        """)
+        
+    conclusion =  st.checkbox('**Conclusion**')
+    if conclusion:
+        st.write("""
+            **Discussion** :
+            - Tous les algorithmes sont meilleurs que la recommandation aléatoire
+            - *Kmeans-based ranking* > *Average-based ranking*
+            - *Filtrage par les artistes* > *Sans filtrage*
+            - Meilleurs perfomances de l'agorithme Kmeans-based ranking + filtrage par artiste : Importance de tenir compte de la diversité des goûts musicaux de l'utilisateur et de plusieurs sources d'informations concernant les titres de sa playlist.
+            - Attention aux mesures de performances 'pures' : Peu de sérendipité et effet bulle.
+            
+            **Limites** :
+            - Jeu de données : vieux (2011), pas d'information spatiale ou temporelle
+            - Séparation de la playlist des utilisateurs sans tenir compte de l'ordre d'écoute
+            - Les titres n'ayant été écouté par aucun utilisateur n'ont pas été intégré dans les propositions possibles
+            
+            **Perspectives** :
+            - Evaluation des performances sur plus d'échantillon
+            - Comparer les performances à un algorithme de *Collaborative-filtering*
+            - Développer un algorithme de recommandation hybride intégrant de mulitples sources d'information
+            
+            Notes : La méthodo pour évaluer les algorithmes a été développé grâce au livre *Recommenders Systems* d'Aggarwal (500 pages).
+            
+        """)
 else:
     pass
 
