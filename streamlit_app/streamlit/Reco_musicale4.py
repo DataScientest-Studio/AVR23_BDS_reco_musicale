@@ -12,7 +12,7 @@ import streamlit.components.v1 as components
 
 # Barre latérale avec le sommaire
 st.sidebar.title("Sommaire")
-pages = ["Introduction", "Les Données", "Prétraitement des données", "Exploration", "Modèles de recommandation", "Evaluation et résultats"]
+pages = ["Introduction", "Les Données", "Prétraitement des données", "Exploration", "Modèles de recommandations", "Evaluation et résultats"]
 page = st.sidebar.radio("Aller vers", pages)
 
 if page == pages[0]:
@@ -30,20 +30,20 @@ if page == pages[0]:
             qui a pour but de mesurer leur affinité pour certains items et, grâce à cette affinité,
             de prédire un classement des items les plus susceptibles de leur plaire afin de proposer aux utilisateurs des **recommandations ciblées**.
         
-        - **Ou en rencontre t'on**?
-        Ils sont aujourd'hui omniprésents: plateformes de recommandation de films, de musiques, réseaux sociaux, sites d'e-commerce
+        - **Où en rencontre t-on**?
+        Ils sont aujourd'hui omniprésents: plateformes de recommandations de films, de musiques, réseaux sociaux, sites d'e-commerce
         """)
         
-    objectif = st.checkbox("**Les objectifs d'un système de recommandation musicale**")
+    objectif = st.checkbox("**Les objectifs d'un système de recommandations musicale**")
     if objectif:
         st.write("""
-        - Fournir une expérience d'écoute musicale enrichissante 
+        - Fournir une expérience d'écoute musicale agréable pour l'utilisateur
         - Aider les utilisateurs à découvrir de nouvelles chansons, artistes et genres musicaux 
         - En leur proposant des titres semblales ou différents de leurs goûts 
 
-        **Quels problèmes cela pose t'il?**
-        - Proposition de titres similaires aux goûts des utilisateurs: problème de 'bulles de filtre' ou l'accès à l'information est limitée
-        - Proposition de titres différents: pari risqué, cela plaira t'il à l'utilisateur? Potentiellement oui, la sérendipité est au rendez-vous 
+        **Quels problèmes cela pose t-il?**
+        - Propositions de titres similaires aux goûts des utilisateurs: problème de 'bulles de filtre' ou l'accès à l'information est limitée
+        - Propositions de titres différents: pari risqué, cela plaira t-il à l'utilisateur? Potentiellement oui, la sérendipité est au rendez-vous 
         """)
         
         st.image("decoration/syst_reco_mus.png")
