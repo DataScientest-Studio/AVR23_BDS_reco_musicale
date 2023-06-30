@@ -206,7 +206,8 @@ elif page == pages[3]:
         st.write("""
         - Les nombres de sons, d'écoutes et d'artistes par utilisateur présentent des distributions très asymétriques
         - Echelle logarithmique pour visualiser l'allongement de la queue droite vers les valeurs élevées
-        - En terme pratique: un quart des utilisateurs 
+        - En terme pratique: un quart des utilisateurs ont écouté moins de 2 pistes différentes et cumulent moins de 2 écoutes
+        - La plupart des utilisateurs écoutent des pistes interprétées par un seul ou peu d'artistes différents
         """)
 
 elif page == pages[4]:
