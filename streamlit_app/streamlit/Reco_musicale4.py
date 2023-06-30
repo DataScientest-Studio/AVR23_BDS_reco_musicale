@@ -185,7 +185,7 @@ elif page == pages[3]:
             st.image("Data_viz/audio_features_distribution.jpg", caption= "Distribution des caractéristiques acoustiques normalisées")
             st.write("""
             - Variables *speechiness*, *acousticness*, *instumentalness* et *liveness*: distributions asymmétriques
-              - Majorité des sons: pas de paroles, pas d'intruments acoustiques, non enregistrés en live
+              - Majorité des sons: pas de discours, pas d'intruments acoustiques, pas instrumentaux (présence de paroles) et non enregistrés en live
 
             - Variable danceability: distribution suivant une loi normale  
             - Majorité des sons: forte valeur de la variable *energy*
