@@ -341,10 +341,10 @@ elif page == pages[5]:
             - Sélection d'une sous-population d'utilisateur en fonction 
                 - Du nombre de titres différents dans leur playlist
                 - Du nombre d'écoutes cumulées dans leur playlist
-            - Tirage aléatoire d'un échatillon dans cette sous-population
+            - Tirage aléatoire d'un échantillon dans cette sous-population
             - Séparation aléatoire de la playlist de chaque user selon le facteur $p$ :
                 - Une proportion $p$ des titres de la playlist de l'utilisateur sera cachée à l'algorithme
-                - La proporiton $1-p$ des titres restant sert à définir les goûts des utilisateur
+                - La proporiton $1-p$ des titres restant sert à définir les goûts des utilisateurs
             - Définition des rangs des morceaux n'appartenant pas à la playlist apparente par l'algorithme de ranking.
             - Calcul en fonction de $k$, le nombre de titres proposés à l'utilisateur\* :
                 - $TPR(k)$ : la proportion de titre de la playlist cachée qui sont proposés à l'utilisateur
