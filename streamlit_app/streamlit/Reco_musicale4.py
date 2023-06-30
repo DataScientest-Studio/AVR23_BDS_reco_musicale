@@ -337,26 +337,29 @@ elif page == pages[5]:
     st.text("\n")
     methodo = st.checkbox('**Methodologie**')
     if methodo:
-        st.markdown("""
-            - Sélection d'une sous-population d'utilisateur en fonction 
-                - Du nombre de titres différents dans leur playlist
-                - Du nombre d'écoutes cumulées dans leur playlist
-            - Tirage aléatoire d'un échantillon dans cette sous-population
-            - Séparation aléatoire de la playlist de chaque user selon le facteur $p$ :
-                - Une proportion $p$ des titres de la playlist de l'utilisateur sera cachée à l'algorithme
-                - La proporiton $1-p$ des titres restant sert à définir les goûts des utilisateurs
-            - Définition des rangs des morceaux n'appartenant pas à la playlist apparente par l'algorithme de ranking.
-            - Calcul en fonction de $k$, le nombre de titres proposés à l'utilisateur\* :
-                - $TPR(k)$ : la proportion de titre de la playlist cachée qui sont proposés à l'utilisateur
-                - $FPR(k)$ : la proporition de titres n'appartenant pas à la playlist cachée proposés à l'utilisateur
-            - **Evaluation** :
-                - Calcul de la courbe ROC curve et de l'AUC à partir de $TPR(k)$ et $FPR(k)$
-                - Comparaison d'AUC entre algorithme et avec les rangs attribués aléatoirement
-            \n
-            \n
-            \*Section 7.5.4 *Evaluating Ranking via Reciever Operating Characteristic*, *Recommenders System*, Aggarwal (2016)
-        """)
-        st.image("evaluation/workflow.png", width = 500)
+        col1, col2 = st.columns(2)
+        with col1:
+            st.markdown("""
+                        - Sélection d'une sous-population d'utilisateur en fonction 
+                        - Du nombre de titres différents dans leur playlist
+                        - Du nombre d'écoutes cumulées dans leur playlist
+                    - Tirage aléatoire d'un échantillon dans cette sous-population
+                    - Séparation aléatoire de la playlist de chaque user selon le facteur $p$ :
+                        - Une proportion $p$ des titres de la playlist de l'utilisateur sera cachée à l'algorithme
+                        - La proporiton $1-p$ des titres restant sert à définir les goûts des utilisateurs
+                    - Définition des rangs des morceaux n'appartenant pas à la playlist apparente par l'algorithme de ranking.
+                    - Calcul en fonction de $k$, le nombre de titres proposés à l'utilisateur\* :
+                        - $TPR(k)$ : la proportion de titre de la playlist cachée qui sont proposés à l'utilisateur
+                        - $FPR(k)$ : la proporition de titres n'appartenant pas à la playlist cachée proposés à l'utilisateur
+                    - **Evaluation** :
+                        - Calcul de la courbe ROC curve et de l'AUC à partir de $TPR(k)$ et $FPR(k)$
+                        - Comparaison d'AUC entre algorithme et avec les rangs attribués aléatoirement
+                    \n
+                    \n
+                    \*Section 7.5.4 *Evaluating Ranking via Reciever Operating Characteristic*, *Recommenders System*, Aggarwal (2016)
+                """)
+        with col2:
+            st.image("evaluation/workflow.png", width = 500)
     results = st.checkbox('**Resultats**')
     if results:
         st.markdown("""
@@ -418,9 +421,6 @@ elif page == pages[5]:
             - Evaluation des performances sur plus d'échantillons
             - Comparer les performances à un algorithme de *Collaborative-filtering*
             - Développer un algorithme de recommandation hybride intégrant de mulitples sources d'informations
-            
-            Notes : La méthodo pour évaluer les algorithmes a été développé grâce au livre *Recommenders Systems* d'Aggarwal (500 pages).
-            
         """)
 else:
     pass
