@@ -10,13 +10,18 @@ import streamlit.components.v1 as components
 # Titre de l'application
 #st.title("RECOMMANDATION MUSICALE")
 
+pc = st.get_option('theme.primaryColor')
+bc = st.get_option('theme.backgroundColor')
+sbc = st.get_option('theme.secondaryBackgroundColor')
+tc = st.get_option('theme.textColor')
+
 # Barre latérale avec le sommaire
 st.sidebar.title("Sommaire")
 pages = ["Introduction", "Les Données", "Prétraitement des données", "Exploration", "Modèles de recommandations", "Evaluation et résultats"]
 page = st.sidebar.radio("Aller vers", pages)
 
 if page == pages[0]:
-    st.header("Introduction")
+    st.header("**Introduction**")
     #st.write(DECO_DIR)
     #st.markdown(""
     
@@ -242,6 +247,7 @@ elif page == pages[4]:
                          
                     - avec des goûts musicaux très dispersés
                     - avec des gouts musicaux polarisés (plusieurs genres musicaux appréciés)
+                    - ce qui représente la plupart des utilisateurs
                      """)
         
     kmeans_b_ranking = st.checkbox('**Kmeans-based ranking algorithm**')
@@ -260,7 +266,7 @@ elif page == pages[4]:
         if limit2:
             st.text("\n")
             st.write("""
-                     - Algorithme peu adapté pour des utilisateurs avec des goûts musicaux très dispersés.
+                     - Algorithme peu adapté pour des utilisateurs avec des goûts musicaux très dispersés ET présentant un nombre d'écoute très homogène entre différents sous-groupes ou genres musicaux .
                      - Ne tiens compte que des caractéristiques acoustiques (quantitatives) des titres pour déterminer les goûts d'un utilisateur.
              """)
     artist_filter = st.checkbox('**Filtrage par artiste**')
@@ -270,7 +276,8 @@ elif page == pages[4]:
         st.write("""
             **Principe**
             - Classement des artistes par nombre de titres dans la playlist de l'utilisateur.
-            - Modification des rangs des titres en forçant ceux des artistes les plus écoutés à occuper les premières places du classement, l'ordre des titres d'un même artiste dépendant de leur rang pré-filtrage.
+            - Modification des rangs des titres **après ranking basé sur la clusterisation des gouts de l'utilisateur** en réordonnant le rang des titres **non présents dans la playlist apparente de l'utilisateur (train) correspondant aux artistes qu'il a le plus écouté mais absents de cette dernière** afin de ne pas proposer des titres déja détectés dans la playlist apparente
+            - Artiste par artiste, les titres correspondants sont forcés à occuper les premières places du classement, l'ordre des artistes proposés correspondant à ceux les plus écoutés dans la playlist apparente, l'ordre des titres d'un même artiste dépendant quant à lui de leur rang pré-filtrage (clustering).     
             
             **Limites**
             - Peu de sérendipité (effet "bulle de filtre").
@@ -392,6 +399,7 @@ elif page == pages[5]:
             
         elif selected_display == display[5]:
             st.image("evaluation/ROC_101_inf.jpg", caption= "ROC Curve : SG5")
+            
         st.write("""
             Notes:
             - Random reco. : Recommandations après attribution de rang aléatoire
@@ -401,6 +409,14 @@ elif page == pages[5]:
             
         """)
         
+        st.write("""
+            **Observations:**
+            - Plus le nombre de titres écoutés est important, plus les performances de chaque algorithme excepté la recommandation aléatoire est bonne
+            - Au travers de chaque sous-groupe, *les tendances* de performance sont les mêmes entre algorithmes
+            - Pour les premiers sous-groupes avec peu d'écoutes, la performances des algorithmes est bien plus faible et bruitée: illustration du problème des *cold-starters*
+            - Pour le dernier sous-groupe présentant les utilisateurs ayant écouté plus de 100 titres différents, la combinaison du clustering *K-means-based* avec le filtrage par artiste montre qu' en proposant à peine 2% des titres de la base de donnée, 80% des titres de la playlist cachée sont correctement détectés, soit 80% de sensibilité pour 98% de spécificité
+        """)          
+
     conclusion =  st.checkbox('**Conclusion**')
     if conclusion:
         st.write("""
@@ -409,15 +425,17 @@ elif page == pages[5]:
             - *Kmeans-based ranking* > *Average-based ranking*
             - *Filtrage par les artistes* > *Sans filtrage*
             - Meilleurs perfomances de l'agorithme Kmeans-based ranking + filtrage par artiste : Importance de tenir compte de la diversité des goûts musicaux de l'utilisateur et de plusieurs sources d'informations concernant les titres de sa playlist.
-            - Attention aux mesures de performances 'pures' : Peu de sérendipité et effet bulle.
+            - Attention aux mesures de performances 'pures' : peu de sérendipité et effet bulle.
             
             **Limites** :
-            - Jeu de données : vieux (2011), pas d'information spatiale ou temporelle
+            - Jeu de données ancien (2011), pas d'information spatiale ou temporelle
             - Séparation de la playlist des utilisateurs sans tenir compte de l'ordre d'écoute
-            - Les titres n'ayant été écouté par aucun utilisateur n'ont pas été intégré dans les propositions possibles
+            - Présence d'un feedback dont la nature est seulement *implicite* sous la forme du nombre d'écoute par titre mais pas de feedback *explicite* sous la forme de notes     
+            - Ranking et propositions musicales uniquement basées sur l'affinité des utilisateurs pour certain titres selon une segmentation des caractéristiques acoustiques des titres et des artistes écoutés  
+            
             
             **Perspectives** :
-            - Développer d'autres filtres: langue, thème, artistes *similaires* 
+            - Développer d'autres filtres: langue, thème, artistes *similaires* (featuring ou similarité acoustique)
             - Evaluation des performances sur plus d'échantillons
             - Comparer les performances à un algorithme de *Collaborative-filtering*
             - Développer un algorithme de recommandation hybride intégrant de mulitples sources d'informations
