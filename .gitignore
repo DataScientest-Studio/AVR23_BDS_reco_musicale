@@ -128,8 +128,12 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
-# csv extention
-*.csv
+# files (data/millionsong)
+tracks_features.csv
+triplets_metadata.csv
+triplets_metadata_spotify.csv
+
+*.pdf
 
 # zip extension
 *.zip
@@ -142,3 +146,4 @@ dmypy.json
 
 #folder
 unused/
+data/sources/
