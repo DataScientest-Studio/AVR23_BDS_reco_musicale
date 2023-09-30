@@ -16,7 +16,7 @@ sbc = st.get_option('theme.secondaryBackgroundColor')
 tc = st.get_option('theme.textColor')
 
 # Barre latérale avec le sommaire
-st.sidebar.title("Sommaire")
+st.sidebar.title("Common Vibes")
 pages = ["Introduction", "Les Données", "Prétraitement des données", "Exploration", "Modèles de recommandations", "Evaluation et résultats"]
 page = st.sidebar.radio("Aller vers", pages)
 
@@ -129,7 +129,7 @@ elif page == pages[1]:
         st.write("""
         Le jeu de données que nous avons recomposé  
         est disponible sous forme partitionnée   
-        sur notre dépot GitHub [https://github.com/DataScientest-Studio/AVR23_BDS_reco_musicale/tree/main/data](https://github.com/DataScientest-Studio/AVR23_BDS_reco_musicale/tree/main/data)')
+        sur notre dépot GitHub [https://github.com/DataScientest-Studio/AVR23_BDS_reco_musicale/tree/main/data/millionsong](https://github.com/DataScientest-Studio/AVR23_BDS_reco_musicale/tree/main/data)')
         """)
         
     with col2:
@@ -257,7 +257,7 @@ elif page == pages[4]:
             st.image("algo_principle/kmeans_based_example.png", width = 900)
             st.text("\n")
             st.write("""
-                     - Clustering des titres de la playlist de l'utilisateur par Kmeans : centroides représentant les K (sous)-genres musicaux appréciés par l'utilisateur
+                     - Clustering des titres de la playlist de l'utilisateur par Kmeans : centroides représentant les K (sous-genres) musicaux appréciés par l'utilisateur
                      - Définition de K rangs pour chaque titres en fonctions de leurs distances aux centroides.
                      - Sélection du rang le plus faible pour chacun des titres.
                      - Proposition des k premiers titres.
@@ -276,7 +276,7 @@ elif page == pages[4]:
         st.write("""
             **Principe**
             - Classement des artistes par nombre de titres dans la playlist de l'utilisateur.
-            - Modification des rangs des titres **après ranking basé sur la clusterisation des gouts de l'utilisateur** en réordonnant le rang des titres **non présents dans la playlist apparente de l'utilisateur (train) correspondant aux artistes qu'il a le plus écouté mais absents de cette dernière** afin de ne pas proposer des titres déja détectés dans la playlist apparente
+            - Modification des rangs des titres **après ranking basé sur la clusterisation des gouts de l'utilisateur** en réordonnant le rang des titres **non présents dans la playlist apparente de l'utilisateur (train) interprétés par les artistes qu'il a le plus écouté mais absents de la playlist apparente** afin de ne pas proposer des titres déja écoutés. 
             - Artiste par artiste, les titres correspondants sont forcés à occuper les premières places du classement, l'ordre des artistes proposés correspondant à ceux les plus écoutés dans la playlist apparente, l'ordre des titres d'un même artiste dépendant quant à lui de leur rang pré-filtrage (clustering).     
             
             **Limites**
@@ -411,7 +411,7 @@ elif page == pages[5]:
         
         st.write("""
             **Observations:**
-            - Plus le nombre de titres écoutés est important, plus les performances de chaque algorithme excepté la recommandation aléatoire est bonne
+            - Plus le nombre de titres écoutés est important, plus les performances de chaque algorithme excepté la recommandation aléatoire et la recommandation basée sur le profile acoustique moyen sont élevées
             - Au travers de chaque sous-groupe, *les tendances* de performance sont les mêmes entre algorithmes
             - Pour les premiers sous-groupes avec peu d'écoutes, la performances des algorithmes est bien plus faible et bruitée: illustration du problème des *cold-starters*
             - Pour le dernier sous-groupe présentant les utilisateurs ayant écouté plus de 100 titres différents, la combinaison du clustering *K-means-based* avec le filtrage par artiste montre qu' en proposant à peine 2% des titres de la base de donnée, 80% des titres de la playlist cachée sont correctement détectés, soit 80% de sensibilité pour 98% de spécificité
@@ -424,7 +424,7 @@ elif page == pages[5]:
             - Tous les algorithmes sont meilleurs que la recommandation aléatoire
             - *Kmeans-based ranking* > *Average-based ranking*
             - *Filtrage par les artistes* > *Sans filtrage*
-            - Meilleurs perfomances de l'agorithme Kmeans-based ranking + filtrage par artiste : Importance de tenir compte de la diversité des goûts musicaux de l'utilisateur et de plusieurs sources d'informations concernant les titres de sa playlist.
+            - Meilleurs perfomances de l'agorithme Kmeans-based ranking + filtrage par artiste : importance de tenir compte de la diversité des goûts musicaux de l'utilisateur et de plusieurs sources d'informations concernant les titres de sa playlist.
             - Attention aux mesures de performances 'pures' : peu de sérendipité et effet bulle.
             
             **Limites** :
@@ -443,3 +443,43 @@ elif page == pages[5]:
 else:
     pass
 
+
+#LOGO_DIR = str(Path(CUR_DIR) / ".static") + "\\"
+#import cairosvg
+#svg_url = "https://content.linkedin.com/content/dam/me/business/en-us/amp/brand-site/v2/bg/LI-Bug.svg.original.svg"
+#my_png = cairosvg.svg2png(url=svg_url, output_width=50, output_height=50, write_to="llogo.png")
+
+st.sidebar.write(" ")
+st.sidebar.write(" ")
+st.sidebar.write(" ")
+
+#with st.echo():
+#    st.title("LLOGO")
+
+#st.sidebar.markdown("[![Click me](.static/llogo.png)](https://www.linkedin.com/in/benoît-le-bec-59868284)")
+#st.sidebar.markdown("[![Click me](llogo.png)](https://www.linkedin.com/in/benoît-le-bec-59868284)")
+#st.sidebar.image('.static/llogo.png')
+
+#st.sidebar.image(my_png)#, (https://www.linkedin.com/in/benoît-le-bec-59868284))
+
+#st.sidebar.markdown("[![Title](https://content.linkedin.com/content/dam/me/business/en-us/amp/brand-site/v2/bg/LI-Bug.svg.original.png)](https://www.linkedin.com/in/benoît-le-bec-59868284)")
+#column1, column2 = st.columns(2)
+
+
+colsb1, colsb2 = st.sidebar.columns([0.4, 0.6])
+with colsb1:
+    st.write(" ")
+    st.markdown("**Benoît Le Bec**")
+
+with colsb2:
+    st.markdown("[![Title](https://img.icons8.com/?size=47&id=13930&format=png)](https://www.linkedin.com/in/benoît-le-bec-59868284)")
+
+st.sidebar.write(' ')
+
+colsb3, colsb4 = st.sidebar.columns([0.4, 0.6])
+with colsb1:
+    st.write(" ")
+    st.markdown("**Pierre Drouin**")
+
+with colsb2:
+    st.markdown("[![Title](https://img.icons8.com/?size=47&id=13930&format=png)](https://fr.linkedin.com/in/pierre-drouin-6052b614a)")
