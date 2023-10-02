@@ -132,6 +132,7 @@ dmypy.json
 tracks_features.csv
 triplets_metadata.csv
 triplets_metadata_spotify.csv
+app.py
 .gitignore
 
 *.pdf
