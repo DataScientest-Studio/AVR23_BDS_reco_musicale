@@ -56,8 +56,8 @@ Finally, we evaluated the performances of our ranking algorithms and compared th
 
 <p> <br>
 
-<img src = "figures/modelisation/evaluation/ROC_5_25.jpg" width = "450">
-<img src = "figures/modelisation/evaluation/ROC_101_inf.jpg" width = "450">
+<img src = "figures/modelisation/evaluation/ROC_5_25.jpg" width = "400">
+<img src = "figures/modelisation/evaluation/ROC_101_inf.jpg" width = "400">
 
 Legend:
 - Random reco. : Recommandations after random ranking attribution
