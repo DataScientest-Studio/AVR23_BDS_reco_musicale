@@ -20,7 +20,7 @@ To fulfill those goals we first designed several algorithms to split at random t
 <p> <br>
 
 
-<center><img src = "figures/modelisation/evaluation/workflow.png" width="400"></center>
+<center><img src = "figures/modelisation/evaluation/workflow.png" width="500"></center>
 
 
 <p> <br>
@@ -56,8 +56,8 @@ Finally, we evaluated the performances of our ranking algorithms and compared th
 
 <p> <br>
 
-<img src = "figures/modelisation/evaluation/ROC_5_25.jpg" width = "350">
-<img src = "figures/modelisation/evaluation/ROC_101_inf.jpg" width = "350">
+<img src = "figures/modelisation/evaluation/ROC_5_25.jpg" width = "450">
+<img src = "figures/modelisation/evaluation/ROC_101_inf.jpg" width = "450">
 
 Legend:
 - Random reco. : Recommandations after random ranking attribution
@@ -70,7 +70,7 @@ Legend:
 - The larger the number of different  tracks listened, the better the performances of each algorithm is excepted for the random recommandation and for the one based on the weighted average acoustic profile (respective blue and orange traces)
 - Throughout each sub-group, even if only two are presented here, the *performance trends* are the same between algorithms
 - For the first group of small listeners on the left, the algorithms performance is weaker and noisy, which illustrates the problem of *cold-starters*
-- For the regular users group on the right composed of users having listened more than 100 different tracks, combination of *K-means-based* clustering and *artist-filtered* ranks reordering *reaches an Area under Curve of 0.939* and shows that *by proposing barely 2% of the database songs, on average 80% of the hidden playlist of the users is proposed by the recommander algorithm, hence 80% of sensitivity for 98% of specificity*. Since we couldn't find any similar attempt aiming at dividing into apparent and hidden splits the playlists of users of the millionsong dataset and propose a recommander system based on the affinity of the users with the acoustic characteristics of their playlist, the approach developped here brings some novelty and comparison with *state of the art* performances cannot be outlined.
+- For the regular users group on the right composed of users having listened more than 100 different tracks, combination of *K-means-based* clustering and *artist-filtered* ranks reordering *reaches an Area under Curve of 0.939* and shows that *by proposing barely 2% of the database songs, on average 80% of the hidden playlist of the users is proposed by the recommander algorithm, hence 80% of sensitivity for 98% of specificity*. Since we couldn't find any similar attempt aiming at dividing into apparent and hidden splits the playlists of users of the millionsong dataset and propose a recommander system based on the affinity of the users for the acoustic characteristics of their playlist, the approach developped here brings some novelty and comparison with *state of the art* performances cannot be outlined.
 
 Overall:
 - All algorithms > random recommandation
@@ -100,12 +100,12 @@ You can browse and run the [notebooks](./notebooks)
 
 - evaluation_workflow: 1 function to split a user listening history in apparent and hidden playlists, returns 2 dataframes 
 
-- ranking_algorithm_evaluation: 1.Based on the functions described above, create and save results of ranked playlist for users based on distinct ranking algorithms 2. calculate true positive and false negative rates of the distinct algorithms results 3.plot average ROC curves and compute AUC of the users sample results. 
+- ranking_algorithm_evaluation: 1.Based on the functions described above, create and save results of ranked playlist for users based on distinct ranking algorithms 2. calculate true positive and false positive rates of the distinct algorithms results 3.plot average ROC curves and compute AUC of the users sample results. 
 
 
 - dataviz_user_feats: plot users/tracks interactions as the number of different tracks and listenings by user.
 
-- dataviz_tracks_feats: plot the correlations, PCA components, HAC clustering of the acoustic characteristics of the database songs and illustrates the euclidean distance matrix of a user centroids acoustic characteristics with the ones of the database songs under the form of radar plots. 
+- dataviz_tracks_feats: plot the correlations, PCA components, HAC clustering of the acoustic characteristics of the database songs and illustrates the euclidean distance matrix of a user centroids acoustic characteristics  thei the ones of the database songs under the form of radar plots. 
 
 - ranking_algorithms_principle: illustrates in details the process of combining functions to obtain k-means based ranking of a user selected from the user summary and the impact of applying an artist filtering re-ranking in the final recommandation process.
 
