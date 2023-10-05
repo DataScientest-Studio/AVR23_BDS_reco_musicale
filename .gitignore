@@ -149,6 +149,7 @@ app.py
 #folder
 unused/
 data/sources/
+data/millionsong/results/
 utilities/
 tables/
 output/
