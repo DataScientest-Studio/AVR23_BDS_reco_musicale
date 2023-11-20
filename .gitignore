@@ -146,6 +146,9 @@ app.py
 # txt extension
 *.txt
 
+# ipynb files
+ranking_algorithm_evaluation_details.ipynb
+
 #folder
 unused/
 data/sources/
